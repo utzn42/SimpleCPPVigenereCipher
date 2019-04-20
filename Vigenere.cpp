@@ -41,9 +41,9 @@ std::string Vigenere::encr(std::string plaintext, std::string key) {
 
     for (int k = 0; k < plaintext.size(); ++k) {
         if (!uppercase_indices[k]) {
-            ciphertext[k] = lowercase_alphabet[(1 + plaintext_mapping[k] + key_mapping[k]) % 26];
+            ciphertext[k] = lowercase_alphabet[(1 + plaintext_mapping[k] + key_mapping[k % key.size()]) % 26];
         } else {
-            ciphertext[k] = uppercase_alphabet[(1 + plaintext_mapping[k] + key_mapping[k]) % 26];
+            ciphertext[k] = uppercase_alphabet[(1 + plaintext_mapping[k] + key_mapping[k % key.size()]) % 26];
         }
     }
     return ciphertext;
@@ -83,10 +83,10 @@ std::string Vigenere::decr(std::string ciphertext, std::string key) {
 
     for (int k = 0; k < plaintext.size(); ++k) {
         if (!uppercase_indices[k]) {
-            int index =(26 + (ciphertext_mapping[k] - key_mapping[k] - 1)) % 26;
+            int index = (26 + (ciphertext_mapping[k] - key_mapping[k % key.size()] - 1)) % 26;
             plaintext[k] = lowercase_alphabet[index];
         } else {
-            plaintext[k] = uppercase_alphabet[(26 + (ciphertext_mapping[k] - key_mapping[k] - 1)) % 26];
+            plaintext[k] = uppercase_alphabet[(26 + (ciphertext_mapping[k] - key_mapping[k % key.size()] - 1)) % 26];
         }
     }
     return plaintext;
